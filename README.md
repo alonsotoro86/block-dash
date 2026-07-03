@@ -11,6 +11,8 @@ Réplica jugable tipo *Block Blast!* — puzzle de colocación de bloques en un 
 
 Verificado en vivo (build web): navegación completa, compra en tienda, desbloqueo de temas, persistencia de monedas tras recargar. El **drag & drop de piezas sobre el tablero (canvas de Flame) no pudo probarse de forma automatizada** en este entorno porque el canvas no expone selectores CSS ni árbol de accesibilidad — se validó por lógica (tests unitarios) y por inspección visual del render. Recomendado: probar manualmente en un emulador/dispositivo real antes de publicar.
 
+También se generó un **APK de Android real** (`flutter build apk --debug`) usando un SDK/NDK/JDK instalados localmente solo para esta verificación — ver la nota sobre `kotlin.incremental` más abajo si vas a compilar en Windows con el proyecto en una unidad distinta a `C:`.
+
 ## Cómo correrlo
 
 ```bash
@@ -44,7 +46,8 @@ Esto es lo que **no puede automatizarse** — requiere tus cuentas, pagos y deci
 - [ ] Agregar `google-services.json` (Android) y `GoogleService-Info.plist` (iOS) — **no comitear estos archivos**, ya están en `.gitignore`.
 
 ### 5. Builds de plataforma
-- [ ] **Android**: `flutter build apk` / `flutter build appbundle` funciona directamente en Windows (ya probado: `android/gradlew` incluido en el repo).
+- [x] **Android**: `flutter build apk` / `flutter build appbundle` funciona directamente en Windows (`android/gradlew` incluido en el repo). Ya se generó y verificó un APK debug real.
+  - Nota: si tu Android SDK/JDK o el propio proyecto viven en una unidad distinta a `C:` (como aquí, proyecto en `D:`), el compilador incremental de Kotlin puede fallar con `"this and base files have different roots"`. Ya está desactivado vía `kotlin.incremental=false` en `android/gradle.properties` — solo quítalo si mueves todo a la misma unidad y quieres builds incrementales más rápidos.
 - [ ] **iOS**: requiere una Mac con Xcode (no es posible compilar/firmar iOS desde Windows). Alternativas: Mac física, o un servicio de CI en la nube (Codemagic, GitHub Actions con runner macOS, Ionic Appflow).
 - [ ] Cuenta de Apple Developer Program ($99/año) y Google Play Console ($25 pago único).
 
