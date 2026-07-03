@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/animation.dart' show Curves;
+import 'package:flutter/services.dart' show HapticFeedback;
 
 import '../models/piece.dart';
 import '../theme/block_themes.dart';
@@ -98,6 +99,7 @@ class DraggablePieceComponent extends PositionComponent with DragCallbacks {
   }
 
   void _snapHome() {
+    HapticFeedback.selectionClick();
     add(ScaleEffect.to(Vector2.all(1.0), EffectController(duration: 0.12)));
     add(
       MoveToEffect(

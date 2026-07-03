@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/services.dart';
 
 import '../models/board.dart';
 import '../models/piece.dart';
@@ -181,6 +182,9 @@ class BlockDashGame extends FlameGame with TapCallbacks {
       final comboBonus = board.comboStreak > 1 ? (board.comboStreak - 1) * 3 : 0;
       final coins = result.linesCleared * 5 + comboBonus;
       onCoinsEarned(coins);
+      HapticFeedback.mediumImpact();
+    } else {
+      HapticFeedback.lightImpact();
     }
 
     if (trayPieces.every((p) => p == null)) {
@@ -217,6 +221,7 @@ class BlockDashGame extends FlameGame with TapCallbacks {
     final anyFits = remainingShapes.any((s) => board.canPlaceAnywhere(s));
     if (!anyFits) {
       _gameOverFired = true;
+      HapticFeedback.heavyImpact();
       onGameOver(score);
     }
   }
